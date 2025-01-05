@@ -1,0 +1,88 @@
+// Bruteforce Approach
+
+class Solution {
+    static long maximumSumSubarray(int k, ArrayList<Integer> arr, int n) {
+        long maxSumSubarrayOfSizeK = Long.MIN_VALUE;
+        for (int start = 0; start < n; start++) {
+            for (int end = start; end < n; end++) {
+                int subarrayLength = end - start + 1;
+                if (subarrayLength == k) {
+                    long sumOfSubarrayOfSizek = 0;
+                    for (int range = start; range <= end; range++) {
+                        sumOfSubarrayOfSizek += arr.get(range);
+                    }
+
+                    maxSumSubarrayOfSizeK = Math.max(maxSumSubarrayOfSizeK, sumOfSubarrayOfSizek);
+                }
+            }
+        }
+
+        return maxSumSubarrayOfSizeK;
+    }
+}
+
+
+//Good Approach
+
+class Solution {
+    static long maximumSumSubarray(int k, ArrayList<Integer> arr, int n) {
+        long maxSumSubarrayOfSizeK = Long.MIN_VALUE;
+        for (int start = 0; start < n; start++) {
+            long subarraySum = 0;
+            for (int end = start; end < n; end++) {
+                subarraySum += arr.get(end);
+                int subarrayLength = end - start + 1;
+                if (subarrayLength == k) {
+                    maxSumSubarrayOfSizeK = Math.max(maxSumSubarrayOfSizeK, subarraySum);
+                }
+            }
+        }
+
+        return maxSumSubarrayOfSizeK;
+    }
+}
+
+
+//Better Approach
+
+class Solution {
+    static long maximumSumSubarray(int k, ArrayList<Integer> arr, int n) {
+        long maxSumSubarrayOfSizeK = Long.MIN_VALUE;
+
+        for (int i = 0; i <= (n - k); i++) {
+            long sumOfSubarrayOfSizeK = 0;
+            for (int j = i; j < (i + k); j++) {
+                sumOfSubarrayOfSizeK += arr.get(j);
+            }
+
+            maxSumSubarrayOfSizeK = Math.max(maxSumSubarrayOfSizeK, sumOfSubarrayOfSizeK);
+        }
+
+        return maxSumSubarrayOfSizeK;
+    }
+}
+
+
+//Optimal Approach
+
+class Solution {
+    static long maximumSumSubarray(int k, ArrayList<Integer> arr, int n) {
+        long maxSumSubarrayOfSizeK = Long.MIN_VALUE, subarraySum = 0L;
+        int start = 0, end = 0;
+
+        while (start <= (n - k)) {
+            subarraySum += arr.get(end);
+
+            if ((end - start + 1) < k) {
+                end++;
+            } else { // (end-start+1)==k
+                maxSumSubarrayOfSizeK = Math.max(maxSumSubarrayOfSizeK, subarraySum);
+                subarraySum -= arr.get(start);
+                start++;
+                end++;
+            }
+        }
+
+        return maxSumSubarrayOfSizeK;
+    }
+}
